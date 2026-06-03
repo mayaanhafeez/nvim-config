@@ -8,6 +8,9 @@ vim.diagnostic.config({
   signs = true,
   update_in_insert = false,
 })
+
+vim.opt.list = false
+
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
   callback = function()
