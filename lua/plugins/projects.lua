@@ -19,4 +19,16 @@ return {
       { "<leader>fp", "<cmd>Telescope projects<cr>", desc = "Projects" },
     },
   },
+  {
+    "nosduco/remote-sshfs.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    config = function()
+      require("remote-sshfs").setup({})
+      require("telescope").load_extension("remote-sshfs")
+      local api = require("remote-sshfs.api")
+      vim.keymap.set("n", "<leader>rc", api.connect, { desc = "Remote SSH connect" })
+      vim.keymap.set("n", "<leader>rd", api.disconnect, { desc = "Remote SSH disconnect" })
+      vim.keymap.set("n", "<leader>re", api.edit, { desc = "Remote SSH edit config" })
+    end,
+  },
 }
