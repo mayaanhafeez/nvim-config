@@ -2,7 +2,7 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    enabled = true,
+    enabled = false,
     priority = 1000,
     opts = {
       variant = "main", -- "main", "moon", or "dawn"
