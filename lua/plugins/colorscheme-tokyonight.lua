@@ -5,7 +5,7 @@ return {
     enabled = true,
     priority = 1000,
     opts = {
-      style = "storm", -- "storm", "night", "moon", or "day"
+      style = "night", -- "storm", "night", "moon", or "day"
       transparent = true,
       terminal_colors = true,
       styles = {
