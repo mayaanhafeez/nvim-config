@@ -7,7 +7,7 @@ return {
   {
     "bjarneo/aether.nvim",
     name = "aether",
-    enabled = true,
+    enabled = false,
     priority = 1000,
     opts = {
       transparent = false,
