@@ -1,16 +1,22 @@
 -- Colorscheme selection, Omarchy-style.
 --
--- Omarchy keeps the active system theme's lazy spec at
--- ~/.local/state/omarchy/current/theme/neovim.lua and rewrites it on every
--- `omarchy theme set`. Loading that file is exactly what Omarchy's own
--- lua/plugins/theme.lua symlink does; a plain file is used here instead so this
--- config survives being pushed to git and pulled onto a machine (macOS) that
--- has no Omarchy state to point at.
+-- Omarchy keeps the active system theme's lazy spec in its current-theme
+-- directory and rewrites it on every `omarchy theme set`. Loading that file is
+-- exactly what Omarchy's own lua/plugins/theme.lua symlink does; a plain file is
+-- used here instead so this config survives being pushed to git and pulled onto
+-- a machine (macOS) that has no Omarchy state to point at.
 --
 -- On Omarchy: nvim follows the system theme, nothing to configure.
 -- Elsewhere: FALLBACK below picks the theme.
 
-local OMARCHY_THEME = vim.fn.expand("~/.local/state/omarchy/current/theme/neovim.lua")
+-- Omarchy 4 moved the current-theme directory from ~/.config/omarchy to
+-- ~/.local/state/omarchy. Its upgrade relocates the old directory rather than
+-- leaving a copy behind, so at most one of these exists and the first hit is
+-- always the live one.
+local OMARCHY_THEMES = {
+  "~/.local/state/omarchy/current/theme/neovim.lua",
+  "~/.config/omarchy/current/theme/neovim.lua",
+}
 
 -- Only consulted when Omarchy is absent. Must be a key of `local_themes`.
 local FALLBACK = "rose-pine"
@@ -155,8 +161,18 @@ local function apply_tweaks(spec)
   return spec
 end
 
-if vim.uv.fs_stat(OMARCHY_THEME) then
-  return apply_tweaks(dofile(OMARCHY_THEME))
+local function omarchy_theme()
+  for _, path in ipairs(OMARCHY_THEMES) do
+    path = vim.fn.expand(path)
+    if vim.uv.fs_stat(path) then
+      return path
+    end
+  end
+end
+
+local omarchy = omarchy_theme()
+if omarchy then
+  return apply_tweaks(dofile(omarchy))
 end
 
 return apply_tweaks(local_spec())
