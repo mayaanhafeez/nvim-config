@@ -19,7 +19,7 @@ local OMARCHY_THEMES = {
 }
 
 -- Only consulted when Omarchy is absent. Must be a key of `local_themes`.
-local FALLBACK = "rose-pine"
+local FALLBACK = "tokyonight-night"
 
 -- Colorscheme tuning, keyed by plugin repo. Merged under the active spec's own
 -- opts (so an Omarchy theme's generated palette still wins) and only for
@@ -74,6 +74,10 @@ local local_themes = {
   ["tokyonight-night"] = { plugin = { "folke/tokyonight.nvim" } },
   ["tokyonight-storm"] = { plugin = { "folke/tokyonight.nvim" } },
   ["catppuccin"] = { plugin = { "catppuccin/nvim", name = "catppuccin" } },
+  ["kanagawa"] = { plugin = { "rebelot/kanagawa.nvim" } },
+  ["nordfox"] = { plugin = { "EdenEast/nightfox.nvim" } },
+  ["bamboo"] = { plugin = { "ribru17/bamboo.nvim" } },
+  ["retro-82"] = { plugin = { "OldJobobo/retro-82.nvim" } },
   -- set-theme's "hinterlands". The Omarchy theme repo ships a neovim.lua that
   -- passes base16 keys (base00..base0F); aether.nvim v3 takes semantic keys
   -- instead, so the repo's role assignments are translated below — each comment
@@ -132,9 +136,11 @@ local local_themes = {
     },
   },
   ["andromeda"] = {},
+  ["drive"] = {},
   ["matte-black"] = {},
   ["tomorrow-night-burns"] = {},
   ["vanta-black"] = {},
+  ["ristretto"] = {},
 }
 
 local function local_spec()
