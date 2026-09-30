@@ -20,3 +20,13 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
   end,
 })
+
+-- no statusline (lualine is disabled); show "-- INSERT --" etc. in the command line
+vim.opt.showmode = true
+vim.opt.laststatus = 1
+
+-- native number column: current line number sits left, relative numbers right-aligned
+vim.opt.statuscolumn = ""
+
+-- vertical guide line at column 80
+vim.opt.colorcolumn = "80"

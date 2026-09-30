@@ -3,10 +3,10 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- installed via `brew install llvm`, skip Mason
+        -- installed via `brew install llvm@22`, skip Mason
         clangd = {
           mason = false,
-          cmd = { "/opt/homebrew/opt/llvm/bin/clangd" },
+          cmd = { "/opt/homebrew/opt/llvm@22/bin/clangd" },
         },
 
         -- installed via `cargo install asm-lsp`, skip Mason

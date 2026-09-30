@@ -19,7 +19,7 @@ local OMARCHY_THEMES = {
 }
 
 -- Only consulted when Omarchy is absent. Must be a key of `local_themes`.
-local FALLBACK = "tokyonight-night"
+local FALLBACK = "rose-pine"
 
 -- Colorscheme tuning, keyed by plugin repo. Merged under the active spec's own
 -- opts (so an Omarchy theme's generated palette still wins) and only for
@@ -70,6 +70,7 @@ local tweaks = {
 -- so they stay scoped to this table and never reach an Omarchy-supplied spec.
 local local_themes = {
   ["rose-pine"] = { plugin = { "rose-pine/neovim", name = "rose-pine" } },
+  ["rose-pine-dawn"] = { plugin = { "rose-pine/neovim", name = "rose-pine", opts = { variant = "dawn" } } },
   ["rose-pine-moon"] = { plugin = { "rose-pine/neovim", name = "rose-pine" } },
   ["tokyonight-night"] = { plugin = { "folke/tokyonight.nvim" } },
   ["tokyonight-storm"] = { plugin = { "folke/tokyonight.nvim" } },
@@ -136,11 +137,14 @@ local local_themes = {
     },
   },
   ["andromeda"] = {},
+  ["batcomputer"] = {},
   ["drive"] = {},
   ["matte-black"] = {},
   ["tomorrow-night-burns"] = {},
   ["vanta-black"] = {},
   ["ristretto"] = {},
+  ["blueridge-dark"] = {},
+  ["pixel"] = { plugin = { "bjarneo/pixel.nvim" } },
 }
 
 local function local_spec()
