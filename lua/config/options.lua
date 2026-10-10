@@ -3,6 +3,12 @@
 -- Add any additional options here
 vim.g.autoformat = false
 vim.opt.scrolloff = 8
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.guicursor = "" -- block cursor in every mode
+vim.opt.updatetime = 50
+vim.opt.isfname:append("@-@") -- let gf follow paths containing @
 vim.diagnostic.config({
   virtual_text = false,
   underline = true,
@@ -12,12 +18,20 @@ vim.diagnostic.config({
 
 vim.opt.list = false
 
+-- hide netrw's help/sort banner at the top of the listing
+vim.g.netrw_banner = 0
+
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
   callback = function()
+    -- The focused window goes transparent; inactive windows keep the
+    -- colorscheme's own background so they read as dimmed. Captured before
+    -- Normal is cleared, so it follows whatever theme set-theme switched to.
+    local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
+    local nc = vim.api.nvim_get_hl(0, { name = "NormalNC", link = false })
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalNC", { fg = nc.fg or normal.fg, bg = nc.bg or normal.bg })
   end,
 })
 

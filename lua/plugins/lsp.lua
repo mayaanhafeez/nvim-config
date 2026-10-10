@@ -2,6 +2,8 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      -- no inline type/parameter hints by default; <leader>uh toggles them
+      inlay_hints = { enabled = false },
       servers = {
         -- installed via `brew install llvm@22`, skip Mason
         clangd = {
@@ -43,6 +45,14 @@ return {
         },
 
         vtsls = {},
+
+        -- installed via Mason, but neither lspconfig nor mason-lspconfig know about it
+        kmp_lsp = {
+          mason = false,
+          cmd = { vim.fn.stdpath("data") .. "/mason/bin/kmp-lsp" },
+          filetypes = { "kotlin", "java" },
+          root_markers = { "settings.gradle.kts", "settings.gradle", ".git" },
+        },
       },
     },
   },
