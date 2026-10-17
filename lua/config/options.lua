@@ -21,17 +21,35 @@ vim.opt.list = false
 -- hide netrw's help/sort banner at the top of the listing
 vim.g.netrw_banner = 0
 
+-- Fallback for themes whose CursorLine has no background: how far inactive
+-- windows move from the theme background toward its text colour
+local INACTIVE_TINT = 0.08
+
+-- mix two 0xRRGGBB colours, t of the way from a to b
+local function blend(a, b, t)
+  local out = 0
+  for shift = 16, 0, -8 do
+    local ca, cb = bit.band(bit.rshift(a, shift), 0xff), bit.band(bit.rshift(b, shift), 0xff)
+    out = out + bit.lshift(math.floor(ca + (cb - ca) * t + 0.5), shift)
+  end
+  return out
+end
+
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
   callback = function()
-    -- The focused window goes transparent; inactive windows keep the
-    -- colorscheme's own background so they read as dimmed. Captured before
-    -- Normal is cleared, so it follows whatever theme set-theme switched to.
+    -- The focused window goes transparent; inactive windows take the theme's
+    -- current-line colour, so they stand out whatever the terminal's opacity.
+    -- Read before Normal is cleared, so it follows set-theme.
     local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
-    local nc = vim.api.nvim_get_hl(0, { name = "NormalNC", link = false })
+    local bg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false }).bg
+    if not bg and normal.bg then
+      local fg = normal.fg or (vim.o.background == "light" and 0x000000 or 0xffffff)
+      bg = blend(normal.bg, fg, INACTIVE_TINT)
+    end
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalNC", { fg = nc.fg or normal.fg, bg = nc.bg or normal.bg })
+    vim.api.nvim_set_hl(0, "NormalNC", { fg = normal.fg, bg = bg })
   end,
 })
 
