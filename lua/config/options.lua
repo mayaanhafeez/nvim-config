@@ -1,6 +1,14 @@
 -- Options are automatically loaded before lazy.nvim startup
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
+-- Keep notebook tooling separate from project virtual environments.
+local jupyter_bin = vim.fn.stdpath("data") .. "/jupyter/bin"
+if vim.fn.executable(jupyter_bin .. "/python") == 1 then
+  vim.g.python3_host_prog = jupyter_bin .. "/python"
+  -- Append rather than prepend: an activated project's Python still wins.
+  vim.env.PATH = vim.env.PATH .. ":" .. jupyter_bin
+end
+
 vim.g.autoformat = false
 vim.opt.scrolloff = 8
 vim.opt.tabstop = 4
